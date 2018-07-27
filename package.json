@@ -1,0 +1,46 @@
+{
+  "name": "neural-networks-and-deep-learning",
+  "version": "0.0.1",
+  "author": "andrew t. poe",
+  "private": true,
+  "description": "A JavaScript version of the neural network created in the book Neural Networks and Deep Learning",
+  "keywords": [
+    "neural network",
+    "deep learning",
+    "artificial intelligence",
+    "machine learning"
+  ],
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/andrewtpoe/neural-networks-and-deep-learning.git"
+  },
+  "engines": {
+    "node": ">=8.11.0"
+  },
+  "main": "index.js",
+  "scripts": {
+    "start": "react-app-rewired start",
+    "prettier": "prettier --ignore-path ./.eslintignore --write './**/*.{js,json,css,md}'"
+  },
+  "lint-staged": {
+    "*.{js,json,css,md}": [
+      "prettier --ignore-path ./.eslintignore --write",
+      "git add"
+    ]
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "dependencies": {
+    "ramda": "^0.25.0"
+  },
+  "devDependencies": {
+    "husky": "^0.14.3",
+    "lint-staged": "^7.0.0",
+    "npm-run-all": "^4.1.2",
+    "prettier": "^1.11.1"
+  }
+}
