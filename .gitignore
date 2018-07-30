@@ -1,6 +1,14 @@
 notes
 tmp
 yarn*
+*~
+*.org
+*.pem
+*.pkl
+*.pyc
+.DS_Store
+loc.py
+src/ec2
 
 # Created by https://www.gitignore.io/api/git,osx,node,linux,python,windows,jetbrains,visualstudio,visualstudiocode
 
