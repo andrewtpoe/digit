@@ -1,16 +1,17 @@
 const { curry, forEach, range } = require('ramda');
 
-const { buildActiveModel } = require('./buildActiveModel');
+const { getModel } = require('./getModel');
 
-const evaluate = curry((activeModel, testData) => {
+const evaluate = curry((testData, model) => {
   console.log('Evaluating current model.');
 });
 
-const train = curry((initialModel, trainingData, trainingOptions, callback) => {
-  console.log('Training Neural Network.');
+const train = curry((trainingData, callback) => {
+  console.log('Begining training sequence.');
 
-  const { epochs = 30, miniBatchSize = 10, stepSize = 3.0 } = trainingOptions;
+  const initialModel = getModel();
 
+  const { epochs } = initialModel;
   const cycles = range(0, epochs);
 
   let updatedModel = initialModel;
@@ -24,18 +25,16 @@ const train = curry((initialModel, trainingData, trainingOptions, callback) => {
 });
 
 /**
- * Initializes the neural network. Hyperparams are adjusted via the constants file.
+ * Initializes the neural network. HyperParams are adjusted via the constants file.
  *
  * @returns {object} An object containing methods you can use to run the neural network.
  */
-function initializeNetwork(model) {
+function initializeNetwork() {
   console.log('Initializing Neural Network.');
-
-  const activeModel = buildActiveModel(model);
 
   return {
     evaluate,
-    train: train(activeModel),
+    train,
   };
 }
 
