@@ -2,11 +2,18 @@ const { loadData } = require('./data-loader');
 const { initializeNetwork } = require('./network');
 
 (async () => {
-  const { trainingData, validationData, testData } = await loadData;
+  const { trainingData, testData } = await loadData;
 
-  const network = initializeNetwork();
+  const network = await initializeNetwork();
 
-  const trainingOptions = { epochs: 30, miniBatchSize: 10, stepSize: 3.0 };
+  const trainingOptions = {
+    // The number of training cycles to run.
+    epochs: 30,
+    // The number of images to load into each training cycle.
+    miniBatchSize: 10,
+    // A factor in how far the network will adjust on each cycle.
+    stepSize: 3.0,
+  };
 
   network.train(trainingData, trainingOptions, network.evaluate(testData));
 })();

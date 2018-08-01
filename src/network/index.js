@@ -1,10 +1,6 @@
 const { curry, forEach, range } = require('ramda');
 
-const defaultModel = require('../model.json');
-
-function buildActiveModel(model) {
-  return {};
-}
+const { buildActiveModel } = require('./buildActiveModel');
 
 const evaluate = curry((activeModel, testData) => {
   console.log('Evaluating current model.');
@@ -28,15 +24,9 @@ const train = curry((initialModel, trainingData, trainingOptions, callback) => {
 });
 
 /**
- * Initializes the neural network.
+ * Initializes the neural network. Hyperparams are adjusted via the constants file.
  *
- * @param {Object} model the model contains specific parameters used to initialize the network.
- *        If not supplied, the model will be loaded from and saved to `src/model.json
- * @property {Array.<Numbers>} model.layers an array of numbers. The first for this data set
- *           must be 784 to match the number of pixels in the base image.
- * @property {Array.} model.biases an array of arrays representing the biases
- * @property {Array.} model.weights an array of arrays representing the weights
- * @returns
+ * @returns {object} An object containing methods you can use to run the neural network.
  */
 function initializeNetwork(model) {
   console.log('Initializing Neural Network.');
