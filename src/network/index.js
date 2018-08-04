@@ -1,6 +1,7 @@
 const { curry, forEach, range } = require('ramda');
 
 const { getModel } = require('./getModel');
+const { saveModel } = require('./saveModel');
 
 const evaluate = curry((testData, model) => {
   console.log('Evaluating current model.');
@@ -21,7 +22,7 @@ const train = curry((trainingData, callback) => {
     callback(updatedModel);
   }, cycles);
 
-  return updatedModel;
+  return saveModel(updatedModel);
 });
 
 /**
