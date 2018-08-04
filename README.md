@@ -12,3 +12,15 @@ is may be a bit simpler for less familiar developers to digest.
 
 This is _not_ a production ready neural network (by a long shot). This is more
 like a homework/ research project.
+
+## Using the Neural Network
+
+### Prerequisites
+
+This program runs in Node JS, but requires Python 2 as well. Python is used to
+initialize and unpickle the data.
+
+### Running the program
+
+- `npm run start`: Runs a train/ evaluate loop based on the HyperParams in
+  `src/contstants.js`.
