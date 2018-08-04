@@ -1,5 +1,9 @@
-const { addIndex, map } = require('ramda');
+const { addIndex, forEach, map, reduce } = require('ramda');
+
+const forEachWithIndex = addIndex(forEach);
 
 const mapWithIndex = addIndex(map);
 
-module.exports = { mapWithIndex };
+const reduceWithIndex = addIndex(reduce);
+
+module.exports = { forEachWithIndex, mapWithIndex, reduceWithIndex };
