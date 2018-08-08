@@ -1,4 +1,18 @@
 const PythonShell = require('python-shell');
+const { zip } = require('ramda');
+
+/**
+ * Connects an image (an array of pixel activations) to a value (the number value of the image)
+ * in the same data object.
+ *
+ * @param {object} data an object containing all of the data for this group
+ * @property {array.<array>} data.images an array of pixel activation arrays
+ * @property {array.<number>} data.values an array of number values matching the index in images.
+ * @returns An array in this format [[pixel activations], value]
+ */
+function formatData({ images, values }) {
+  return zip(images, values);
+}
 
 const loadData = new Promise((resolve, reject) => {
   console.log(
@@ -18,9 +32,9 @@ const loadData = new Promise((resolve, reject) => {
     const [trainingData, validationData, testData] = results;
 
     resolve({
-      trainingData: JSON.parse(trainingData),
-      validationData: JSON.parse(validationData),
-      testData: JSON.parse(testData),
+      trainingData: formatData(JSON.parse(trainingData)),
+      validationData: formatData(JSON.parse(validationData)),
+      testData: formatData(JSON.parse(testData)),
     });
   });
 });
