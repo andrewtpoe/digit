@@ -3,13 +3,13 @@ const { compose, curry, last, sum, zip, zipWith } = require('ramda');
 const { reduceWithIndex } = require('../utils');
 
 /**
- * Evaluates the index of the highest activation. This is used as the predicted value.
+ * Evaluates results of the network run and selects a value. This is used as the predicted value.
  *
  * @param {array.<Number>} outputActivations the activations of the neurons in the output layer.
- * @returns A prediction for this run of the network.
+ * @returns The activation of the neuron selected and the value predicted
  */
-function evaluateOutputActivations(outputActivations) {
-  const prediction = reduceWithIndex(
+function evaluateResults(outputActivations) {
+  return reduceWithIndex(
     (acc, activation, index) => {
       if (activation >= acc.activation) {
         return { activation: activation, value: index };
@@ -19,12 +19,9 @@ function evaluateOutputActivations(outputActivations) {
     { activation: 0, value: 0 },
     outputActivations,
   );
-  return prediction.value;
 }
 
 /**
- * Generates a neuron's final activation
- *
  * This function implements the sigmoid formula:
  *
  * σ(z) ≡ 1 / (1 + e^−z)
@@ -33,27 +30,28 @@ function evaluateOutputActivations(outputActivations) {
  * http://neuralnetworksanddeeplearning.com/chap1.html#sigmoid_neurons
  *
  * @param {number} weightedInput
- * @returns
+ * @returns {number} typically used as a neuron's activation
  */
 function sigmoid(weightedInput) {
   return 1.0 / (1.0 + Math.exp(-weightedInput));
 }
 
 /**
- * TODO: add docs
+ * Generates a neuron's final activation
  *
- * @param {*} neuronWeights
+ * @param {*} neuronInputWeights
  * @param {*} previousLayerActivations
  * @param {*} bias
  */
 function generateNeuronActivation(
-  neuronWeights,
+  neuronInputWeights,
   previousLayerActivations,
   [bias],
 ) {
   return sigmoid(
-    sum(zipWith((w, a) => w * a, neuronWeights, previousLayerActivations)) +
-      bias,
+    sum(
+      zipWith((w, a) => w * a, neuronInputWeights, previousLayerActivations),
+    ) + bias,
   );
 }
 
@@ -130,56 +128,60 @@ function generateLayerActivations(
  *          each layer in the network.
  */
 const feedForward = curry(({ biases, weights }, inputActivations) => {
-  const layers = zip(weights, biases);
+  const layersWeightsAndBiases = zip(weights, biases);
 
   return reduceWithIndex(
     (accumulator, [layerInputWeights, layerBiases], index) => {
       const previousLayerActivations = accumulator[index];
+      const currentLayerActivations = generateLayerActivations(
+        layerInputWeights,
+        previousLayerActivations,
+        layerBiases,
+      );
 
-      return accumulator.concat([
-        generateLayerActivations(
-          layerInputWeights,
-          previousLayerActivations,
-          layerBiases,
-        ),
-      ]);
+      return accumulator.concat([currentLayerActivations]);
     },
     [inputActivations],
-    layers,
+    layersWeightsAndBiases,
   );
 });
 
 /**
- * TODO: add docs
+ * Handles processing an image through the network evaluating the results.
  *
- * @param {*} model
- * @param {*} inputActivations
- * @returns
+ * @param {object} model the model contains the values that define the network.
+ * @param {array.<number>} inputActivations an array of numeric values representing pixel
+ *        activations for an image. The length of this array MUST MATCH the number of neurons
+ *        specified in layer 0.
+ * @returns {object} has fields activation (neuron activation) and value
  */
 function predictValue(model, inputActivations) {
   return compose(
-    evaluateOutputActivations,
+    evaluateResults,
     last,
     feedForward(model),
   )(inputActivations);
 }
 
 /**
- * TODO: add docs
+ * Runs an image's pixel activations through the network.
  *
- * @param {*} model
- * @param {*} image
- * @returns
+ * @param {object} model the model contains the values that define the network.
+ * @param {array.<array|number>} image An array containing two elements:
+ *        0. the pixel activations of the image.
+ *        1. the numeric value the image represents
+ * @returns {object} a prediction with fields accurate, activation, actualValue, and predictedValue
  */
-const evaluateImage = curry((model, image) => {
-  const [inputActivations, actualValue] = image;
-  const predictedValue = predictValue(model, inputActivations);
+const predictValueOfImage = curry((model, image) => {
+  const [pixelActivations, actualValue] = image;
+  const prediction = predictValue(model, pixelActivations);
 
   return {
-    accurate: actualValue === predictedValue,
+    accurate: actualValue === prediction.value,
+    activation: prediction.activation,
     actualValue,
     predictedValue,
   };
 });
 
-module.exports = { evaluateImage };
+module.exports = { predictValueOfImage };

@@ -3,19 +3,19 @@ const { compose, curry, filter, forEach, range, reduce } = require('ramda');
 const { noop } = require('../utils');
 
 const { getModel } = require('./getModel');
-const { evaluateImage } = require('./evaluateImage');
+const { predictValueOfImage } = require('./predictValueOfImage');
 const { saveModel } = require('./saveModel');
 const { updateModel } = require('./updateModel');
 
 const evaluate = curry((testData, model) => {
   console.log('Evaluating test data.');
 
-  const evaluateImageWithModel = evaluateImage(model);
+  const predictValueOfImageWithModel = predictValueOfImage(model);
 
   const accuratePredictions = compose(
     filter((prediction) => prediction),
     reduce((accumulator, image) => {
-      const { accurate } = evaluateImageWithModel(image);
+      const { accurate } = predictValueOfImageWithModel(image);
       return accumulator.concat(accurate);
     }, []),
   )(testData);
@@ -49,7 +49,9 @@ const train = curry((trainingData, callback = noop) => {
 });
 
 /**
- * Initializes the neural network. HyperParams are adjusted via the constants file.
+ * Initializes the neural network. HyperParams are adjusted via the constants file. This
+ * is done through a factory function from the outset to allow for initializing a model
+ * in the future.
  *
  * @returns {object} An object containing methods you can use to run the neural network.
  */
