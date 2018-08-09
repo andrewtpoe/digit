@@ -29,7 +29,9 @@ function evaluateResults(outputActivations) {
  * Reference:
  * http://neuralnetworksanddeeplearning.com/chap1.html#sigmoid_neurons
  *
- * @param {number} weightedInput
+ * @param {number} weightedInput the result of a combination of the previous layer's
+ *        activations, the weights between the previous layer and the current layer,
+ *        and the bias for the current neuron. Represented by `z` in the book.
  * @returns {number} typically used as a neuron's activation
  */
 function sigmoid(weightedInput) {
@@ -39,9 +41,11 @@ function sigmoid(weightedInput) {
 /**
  * Generates a neuron's final activation
  *
- * @param {*} neuronInputWeights
- * @param {*} previousLayerActivations
- * @param {*} bias
+ * @param {array.<number>} neuronInputWeights an array of numbers, each representing the
+ *        input weight between the current neuron and each neuron in the previous layer.
+ * @param {array.<number>} previousLayerActivations the activations for the previous
+ *        layer in the network.
+ * @param {number} bias the bias for the current neuron.
  */
 function generateNeuronActivation(
   neuronInputWeights,
@@ -89,10 +93,12 @@ function generateNeuronActivation(
  * Reference:
  * http://neuralnetworksanddeeplearning.com/chap2.html#warm_up_a_fast_matrix-based_approach_to_computing_the_output_from_a_neural_network
  *
- * @param {*} layerInputWeights
- * @param {*} previousLayerActivations
- * @param {*} biases
- * @returns
+ * @param {array.<array>} layerInputWeights an array of arrays, each representing the
+ *        input weights for a neuron in the layer.
+ * @param {array.<number>} previousLayerActivations the activations for the previous
+ *        layer in the network.
+ * @param {array.<number>} biases the biases for the current layer in the network.
+ * @returns {array.<number>} the activations for the current layer in the network.
  */
 function generateLayerActivations(
   layerInputWeights,
@@ -180,7 +186,7 @@ const predictValueOfImage = curry((model, image) => {
     accurate: actualValue === prediction.value,
     activation: prediction.activation,
     actualValue,
-    predictedValue,
+    predictedValue: prediction.value,
   };
 });
 
