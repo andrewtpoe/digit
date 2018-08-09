@@ -2,7 +2,7 @@ const { compose, filter, isEmpty, slice } = require('ramda');
 
 const { BATCH_SIZE, EPOCHS, LAYERS, LEARNING_RATE } = require('../constants');
 
-const { reduceWithIndex } = require('../ramda-utils');
+const { reduceWithIndex } = require('../utils');
 
 /**
  * Loads the saved model from the file system.
@@ -123,7 +123,7 @@ function buildMatrix(neuronLengthFn, layers, matrix = []) {
 
 /**
  * Validates the biases matrix based on the layers, returns either the provided biases
- * matrix or a valid default matrix. Each layer in a biases matrix contains the biase
+ * matrix or a valid default matrix. Each layer in a biases matrix contains the bias
  * values for each neuron in the respective layer.
  *
  * Example:
@@ -132,7 +132,7 @@ function buildMatrix(neuronLengthFn, layers, matrix = []) {
  *   The first layer of neurons in this biases matrix will be 30 elements long,
  *   one for each neuron in the second layer of the network.
  *   [
- *     Each element in this layer will contain the biase value for a single neuron.
+ *     Each element in this layer will contain the bias value for a single neuron.
  *     [ ... ],
  *     ...
  *   ],
@@ -145,7 +145,7 @@ function buildMatrix(neuronLengthFn, layers, matrix = []) {
  *
  * @param {array.<number>} layers An array of numbers indicating how many neurons
  *        should be in each layer.
- * @param {array} biases A nested array of arrays representing the biases for each
+ * @param {array.<array>} biases A nested array of arrays representing the biases for each
  *        neuron.
  * @returns A valid biases matrix
  */
@@ -180,7 +180,7 @@ function buildBiases(layers, biases) {
  *
  * @param {array.<number>} layers An array of numbers indicating how many neurons
  *        should be in each layer.
- * @param {array} weights A nested array of arrays representing the weights for each
+ * @param {array.<array>} weights A nested array of arrays representing the weights for each
  *        connection between each layer of neurons.
  * @returns A valid weight matrix
  */
