@@ -5,7 +5,7 @@ const { reduceWithIndex } = require('../utils');
 /**
  * Evaluates results of the network run and selects a value. This is used as the predicted value.
  *
- * @param {array.<Number>} outputActivations the activations of the neurons in the output layer.
+ * @param {array.<number>} outputActivations the activations of the neurons in the output layer.
  * @returns The activation of the neuron selected and the value predicted
  */
 function evaluateResults(outputActivations) {
@@ -173,7 +173,7 @@ function predictValue(model, inputActivations) {
  * Runs an image's pixel activations through the network.
  *
  * @param {object} model the model contains the values that define the network.
- * @param {array.<array|number>} image An array containing two elements:
+ * @param {array.<array,number>} image An array containing two elements:
  *        0. the pixel activations of the image.
  *        1. the numeric value the image represents
  * @returns {object} a prediction with fields accurate, activation, actualValue, and predictedValue

@@ -145,7 +145,7 @@ function buildMatrix(neuronLengthFn, layers, matrix = []) {
  *
  * @param {array.<number>} layers An array of numbers indicating how many neurons
  *        should be in each layer.
- * @param {array.array} biases A nested array of arrays representing the biases for each
+ * @param {array.<array>} biases A nested array of arrays representing the biases for each
  *        neuron.
  * @returns A valid biases matrix
  */
