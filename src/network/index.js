@@ -15,8 +15,7 @@ const evaluate = curry((testData, model) => {
   const accuratePredictions = compose(
     filter((prediction) => prediction),
     reduce((accumulator, image) => {
-      const { accurate, predictedValue } = predictValueOfImageWithModel(image);
-      console.log('Predicted value:', predictedValue);
+      const { accurate } = predictValueOfImageWithModel(image);
       return accumulator.concat(accurate);
     }, []),
   )(testData);
