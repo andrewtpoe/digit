@@ -18,7 +18,7 @@ const LAYERS = [784, 30, 10];
  */
 
 // The number of training cycles to run.
-const EPOCHS = 30;
+const EPOCHS = 3;
 
 // The number of images to load into each training cycle.
 const BATCH_SIZE = 10;
@@ -30,5 +30,5 @@ module.exports = {
   BATCH_SIZE,
   EPOCHS,
   LAYERS,
-  LEARNING_RATE,
+  LEARNING_RATE
 };

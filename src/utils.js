@@ -1,4 +1,18 @@
-const { addIndex, curry, forEach, map, reduce } = require('ramda');
+const { addIndex, curry, forEach, map, reduce } = require("ramda");
+
+const chunkTuples = curry((groupSize, data) => {
+  return reduceWithIndex(
+    (accumulator, current, index) => {
+      const chunkIndex = Math.floor(index / groupSize);
+      accumulator[chunkIndex] = [].concat(accumulator[chunkIndex] || [], [
+        current
+      ]);
+      return accumulator;
+    },
+    [],
+    data
+  );
+});
 
 const forEachWithIndex = addIndex(forEach);
 
@@ -23,4 +37,10 @@ const shuffler = curry((random, list) => {
 
 const shuffle = shuffler(Math.random);
 
-module.exports = { forEachWithIndex, mapWithIndex, reduceWithIndex, shuffle };
+module.exports = {
+  chunkTuples,
+  forEachWithIndex,
+  mapWithIndex,
+  reduceWithIndex,
+  shuffle
+};
