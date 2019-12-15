@@ -1,0 +1,6 @@
+{
+  "BATCH_SIZE": 10,
+  "EPOCHS": 30,
+  "LAYERS": [784, 30, 10],
+  "LEARNING_RATE": 3.0
+}

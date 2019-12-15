@@ -20,11 +20,13 @@
   },
   "main": "index.js",
   "scripts": {
-    "prettier": "prettier --ignore-path ./.eslintignore --write './**/*.{js,json,css,md}'",
+    "build": "",
+    "evaluate": "node ./scripts/evaluate.js",
+    "prettier": "prettier --ignore-path ./.eslintignore --write './**/*.{js,json,md}'",
     "reset": "rimraf ./src/model.json",
-    "start": "node ./src/index.js",
     "test": "jest",
-    "test:watch": "jest --watch"
+    "test:watch": "jest --watch",
+    "train": "node ./scripts/train.js"
   },
   "lint-staged": {
     "*.{js,json,css,md}": [
@@ -38,15 +40,15 @@
     }
   },
   "dependencies": {
-    "python-shell": "^0.5.0",
-    "ramda": "^0.25.0",
-    "rimraf": "^2.6.2"
+    "ramda": "^0.25.0"
   },
   "devDependencies": {
     "husky": "^0.14.3",
     "jest": "^23.4.2",
     "lint-staged": "^7.0.0",
     "npm-run-all": "^4.1.2",
-    "prettier": "^1.11.1"
+    "prettier": "^1.11.1",
+    "python-shell": "^0.5.0",
+    "rimraf": "^2.6.2"
   }
 }
